@@ -6,7 +6,7 @@ import org.junit.Assert.*
 class OptionTestImproved:
 
   // imports needed to work with Options
-  import u03.Optionals.*
+  import Optionals.*
   import Optional.*
 
   // values under test

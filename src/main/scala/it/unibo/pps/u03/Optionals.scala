@@ -1,4 +1,4 @@
-package u03
+package it.unibo.pps.u03
 
 // overall module
 object Optionals:
@@ -24,7 +24,7 @@ object Optionals:
       case _       => Empty()
 
 @main def tryOptionals =
-  import Optionals.* // to work with Optionals (to see Optional type)
+  import Optionals.*
   import Optional.* // to directly access algorithms
 
   val s1: Optional[Int] = Just(1)
