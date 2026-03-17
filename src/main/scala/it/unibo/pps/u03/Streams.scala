@@ -1,4 +1,4 @@
-package u03
+package it.unibo.pps.u03
 
 object Streams extends App :
 
