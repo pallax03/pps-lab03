@@ -5,7 +5,7 @@ import org.junit.Assert.*
 import u03.Optionals.Optional.{Empty, Just}
 
 class SequenceTest:
-  import u03.Sequences.*
+  import Sequences.*
   import Sequence.*
 
   val sequence: Sequence[Int] = Cons(10, Cons(20, Cons(30, Nil())))

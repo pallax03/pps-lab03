@@ -2,7 +2,7 @@ package u03
 
 object Streams extends App :
 
-  import Sequences.*
+  import it.unibo.pps.u03.Sequences.*
 
   enum Stream[A]:
     private case Empty()

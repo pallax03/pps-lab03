@@ -11,7 +11,9 @@ object Modules extends App :
     def name(p: Person): String = p match
       case Student(n, _) => n
       case Teacher(n, _) => n
-
+    def course(t: Teacher): String = t match
+      case Teacher(_, c) => c
+  
   println(Person.name(Person.Student("mario", 2015)))
 
   import Person.*
@@ -22,5 +24,5 @@ object Modules extends App :
   def isStudent(p: Person): Boolean = p match
     case Student(_, _) => true
     case _ => false
-
+  
   println(isStudent(Student("mario", 2015)))
