@@ -95,21 +95,28 @@ object Sequences: // Essentially, generic linkedlists
      * E.g., [10, 20, 30] => [10, 30]
      * E.g., [10, 20, 30, 40] => [10, 30]
      */
-    def evenIndices[A](s: Sequence[A]): Sequence[A] = ???
+    def evenIndices[A](s: Sequence[A]): Sequence[A] = s match
+      case Cons(h, t) => Cons(h, skip(t)(1))
+      case _ => Nil()
 
     /*
      * Check if the sequence contains the element
      * E.g., [10, 20, 30] => true if elem is 20
      * E.g., [10, 20, 30] => false if elem is 40
      */
-    def contains[A](s: Sequence[A])(elem: A): Boolean = ???
+    @tailrec
+    def contains[A](s: Sequence[A])(elem: A): Boolean = s match
+      case Cons(h, t) => h.equals(elem) || contains(t)(elem)
+      case _ => false
 
     /*
      * Remove duplicates from the sequence
      * E.g., [10, 20, 10, 30] => [10, 20, 30]
      * E.g., [10, 20, 30] => [10, 20, 30]
      */
-    def distinct[A](s: Sequence[A]): Sequence[A] = ???
+    def distinct[A](s: Sequence[A]): Sequence[A] = s match
+      case Cons(h, t) => Cons(h, filter(t)(_ != h))
+      case _ => Nil()
 
     /*
      * Group contiguous elements in the sequence
@@ -117,14 +124,20 @@ object Sequences: // Essentially, generic linkedlists
      * E.g., [10, 20, 30] => [[10], [20], [30]]
      * E.g., [10, 20, 20, 30] => [[10], [20, 20], [30]]
      */
-    def group[A](s: Sequence[A]): Sequence[Sequence[A]] = ???
+    def group[A](s: Sequence[A]): Sequence[Sequence[A]] = s match
+      case Cons(h1, t1) => t1 match
+        case Cons(h2, t2) if h1.equals(h2) => Cons(Cons(h1, Cons(h2, Nil())), group(t2))
+        case _ => Cons(Cons(h1, Nil()), group(t1))
+      case _ => Nil()
 
     /*
      * Partition the sequence into two sequences based on the predicate
      * E.g., [10, 20, 30] => ([10], [20, 30]) if pred is (_ < 20)
      * E.g., [11, 20, 31] => ([20], [11, 31]) if pred is (_ % 2 == 0)
      */
-    def partition[A](s: Sequence[A])(pred: A => Boolean): (Sequence[A], Sequence[A]) = ???
+    def partition[A](s: Sequence[A])(pred: A => Boolean): (Sequence[A], Sequence[A]) = s match
+      case Cons(h, t) => if pred(h) then (Cons(h, partition(t)(pred)._1), partition(t)(pred)._2) else (partition(t)(pred)._1, Cons(h, partition(t)(pred)._2))
+      case _ => (Nil(), Nil())
 
 // Task 2
 object SequencePerson:
@@ -212,7 +225,6 @@ object Streams:
     def iterate[A](init: => A)(next: A => A): Stream[A] =
       cons(init, iterate(next(init))(next))
 
-    // Task 3
     def takeWhile[A](stream: Stream[A])(predicate: A => Boolean): Stream[A] = stream match
       case Cons(head, tail) if predicate(head()) => cons(head(), takeWhile(tail())(predicate))
       case _ => Empty()
